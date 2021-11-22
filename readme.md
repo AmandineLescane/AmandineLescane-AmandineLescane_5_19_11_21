@@ -2,4 +2,4 @@
 
 Ce projet consiste à implémenter du Javascript dans un site web pour le rendre dynamique. 
 
-Le front-end et le back end sont déjà rédigés.
+Le front-end et le back-end sont déjà rédigés.
