@@ -1,3 +1,4 @@
+/*importation du contenu de l'api*/
 fetch("http://localhost:3000/api/products")
     .then(function(response) {
         if (response.ok) {
@@ -11,6 +12,7 @@ fetch("http://localhost:3000/api/products")
 
     });
 
+/*définition de la class products à partir des éléments de l'api*/
 class products {
     constructor(id, name, imageUrl, description, altTxt){
     this.id = id;
@@ -21,6 +23,7 @@ class products {
     }
 }
 
+/*création d'une fonction afin d'afficher tous les produits de l'api dans la page d'accueil*/
 function productDisplay(value){
     for(products of value){
     

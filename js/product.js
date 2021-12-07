@@ -1,21 +1,11 @@
-/*class products {
-    constructor(colors, id, name, price, imageUrl, description, altTxt){
-    this.colors = colors;
-    this.id = id;
-    this.name = name;
-    this.price = price; 
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.altTxt = altTxt;
-    }
-}
-*/
 
+/*obtention de l'id du produit*/
 let params = new URLSearchParams(window.location.search);
 let productId = params.get("id");
 
-
+/*définition de l'adresse url de chaque produit grâce à l'id*/
 const productUrl = `http://localhost:3000/api/products/${productId}`;
+/*saisie des éléments à modifier dans le DOM*/
 const headTitle = document.head.getElementsByTagName("title");
 const title = document.getElementById("title");
 const price = document.getElementById("price");
@@ -23,6 +13,7 @@ const description = document.getElementById("description");
 const img = document.getElementsByClassName("item__img");
 const colorsId = document.getElementById("colors");
 
+/*affichage de la page produit grâce à l'adresse Url*/
 getProduct();
 
 function getProduct(){
@@ -39,7 +30,7 @@ function getProduct(){
 
     });
 }
-
+/*affichage des éléments de la page produit*/
 function productPages(value){
     headTitle[0].innerHTML = value.name;
     title.innerHTML = value.name;
@@ -61,6 +52,3 @@ function productPages(value){
     }
     
 }
-
-    
-
