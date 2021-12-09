@@ -5,8 +5,8 @@ fetch("http://localhost:3000/api/products")
         return response.json();
     }
 })
-    .then(function(value) {
-        productDisplay(value);
+    .then(function(data) {
+        productDisplay(data);
     })
     .catch(function(error){
 
@@ -20,12 +20,14 @@ class products {
     this.imageUrl = imageUrl;
     this.description = description;
     this.altTxt = altTxt;
+    this.price = price;
+    this.colors = colors;
     }
 }
 
 /*création d'une fonction afin d'afficher tous les produits de l'api dans la page d'accueil*/
-function productDisplay(value){
-    for(products of value){
+function productDisplay(data){
+    for(products of data){
     
     const items = document.getElementById("items")
 

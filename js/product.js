@@ -1,3 +1,14 @@
+class Products {
+    constructor(id, name, imageUrl, description, altTxt, price, colors){
+    this.id = id;
+    this.name = name; 
+    this.imageUrl = imageUrl;
+    this.description = description;
+    this.altTxt = altTxt;
+    this.price = price;
+    this.colors = colors;
+    }
+}
 
 /*obtention de l'id du produit*/
 let params = new URLSearchParams(window.location.search);
@@ -14,41 +25,66 @@ const img = document.getElementsByClassName("item__img");
 const colorsId = document.getElementById("colors");
 
 /*affichage de la page produit grâce à l'adresse Url*/
-getProduct();
-
-function getProduct(){
     fetch(productUrl)
     .then(function(response) {
     return response.json();
 }
 )
-    .then(function(value) {
-        console.log("ok");
-        productPages(value);
+/*Création d'une fonction pour afficher les détails du produit et d'une fonction pour l'ajouter au panier */
+    .then(function(data) {
+        productCart(data);
+        productPages(data);
     })
-    .catch(function(error){
 
-    });
-}
 /*affichage des éléments de la page produit*/
-function productPages(value){
-    headTitle[0].innerHTML = value.name;
-    title.innerHTML = value.name;
-    price.innerHTML = value.price; 
-    description.innerHTML = value.description;
-    img[0].innerHTML += `<img src="${value.imageUrl}" alt="${value.altTxt}">` 
+function productPages(data){
+    headTitle[0].innerHTML = data.name;
+    title.innerHTML = data.name;
+    price.innerHTML = data.price; 
+    description.innerHTML = data.description;
+    img[0].innerHTML += `<img src="${data.imageUrl}" alt="${data.altTxt}">` 
     colorsId.innerHTML += `
-    <option>${value.colors[0]}</option>
-    <option>${value.colors[1]}</option>
+    <option>${data.colors[0]}</option>
+    <option>${data.colors[1]}</option>
     `
-    if((value.colors).length === 3){
+    if((data.colors).length === 3){
         colorsId.innerHTML += `
-        <option>${value.colors[2]}</option>
+        <option>${data.colors[2]}</option>
         `
-    }else if((value.colors).length === 4){
+    }else if((data.colors).length === 4){
         colorsId.innerHTML += `
-        <option>${value.colors[3]}</option>
+        <option>${data.colors[3]}</option>
     `
     }
+} 
+
+/*Ajout du produit et ses informations au panier*/ 
+function productCart(data){
     
+    let cartButton = document.getElementById("addToCart");
+    
+    cartButton.addEventListener("click", () => {
+    
+        let quantities = document.getElementById("quantity");
+        let colorsOption = document.getElementById("colors");
+        console.log("ajouté au panier !");
+
+        let newProduct = new Products(
+            productId,
+            data.name,
+            data.imageUrl,
+            data.description,
+            data.altTxt,
+            data.price,
+            colorsOption.value,
+            parseInt(quantities.value, 10),
+        );
+        newProduct = JSON.stringify(newProduct);
+        localStorage.setItem("produit", newProduct);
+
+        let item = localStorage.getItem("produit");
+        item = JSON.parse(item);
+        console.log(item);
+
+})
 }
