@@ -58,24 +58,22 @@ function productPages(data){
     }
 } 
 
-
 /*Ajout du produit et ses informations au panier*/ 
 function productCart(data){
     
     let cartButton = document.getElementById("addToCart");
+
+    let localCart = localStorage.getItem("canap");
+    localCart = JSON.parse(localCart);
+    localCart = [];
     
+
     cartButton.addEventListener("click", () => {
     
-        let quantities = document.getElementById("quantity");
-        let colorsOption = document.getElementById("colors");
+    let quantities = document.getElementById("quantity");
+    let colorsOption = document.getElementById("colors");
         
-        let localCart = localStorage.getItem("canap");
-        localCart = JSON.parse(item);
-        localCart = []
-        
-        console.log(quantities.value);
-
-        if(colorsOption.value != "" && quantities.value > 0){
+    if(colorsOption.value != "" && quantities.value > 0){
             let newProduct = {
                 productId,
                 productName : data.name,
@@ -86,13 +84,16 @@ function productCart(data){
                 productColors : colorsOption.value,
                 productQuantity : quantities.value
             };
-            newProduct = JSON.stringify(newProduct);
-            localStorage.setItem("canap", newProduct);
             localCart.push(newProduct);
+            newProduct = JSON.stringify(localCart);
+            localStorage.setItem("canap", newProduct);
+            alert("Produit ajouté au panier")
+
+            console.log(localCart);
 
         }else{
-            alert("veuillez choisir une couleur/ une quantité");
+            alert("Veuillez choisir une couleur/ une quantité");
         }
-        console.log(item);
-})
+    })
 }
+
