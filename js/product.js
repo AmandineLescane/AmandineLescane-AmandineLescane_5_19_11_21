@@ -58,23 +58,24 @@ function productPages(data){
     }
 } 
 
-/*Ajout du produit et ses informations au panier*/ 
+/*Ajout du produit et ses informations au panier avec la fonction productCart*/ 
 function productCart(data){
     
     let cartButton = document.getElementById("addToCart");
 
+/*Création du tableau localCart pour sauvegarder les produits du panier*/
     let localCart = localStorage.getItem("canap");
     localCart = JSON.parse(localCart);
     localCart = [];
     
-
+/*Ecoute du bouton "Ajouter au Panier"*/
     cartButton.addEventListener("click", () => {
     
     let quantities = document.getElementById("quantity");
     let colorsOption = document.getElementById("colors");
 
     
-    
+/*Création de l'objet newProduct qui contient les informations du produit ajouté au panier*/
     let newProduct = {
         productId,
         productName : data.name,
@@ -86,11 +87,11 @@ function productCart(data){
         productQuantity : quantities.value
     };
 
+/*Création de la condition pour gérer l'ajout d'un produit ayant la même couleur et le même id au panier pour augmenter seulement la quantité*/
     if(colorsOption.value != "" && quantities.value > 0){
         
         const alreadyIn = localCart.find(
             obj => obj.productId === newProduct.productId && obj.productColors === newProduct.productColors);
-
     if (alreadyIn){
         let fixQuantity = parseInt(newProduct.productQuantity)+ parseInt(alreadyIn.productQuantity);
         alreadyIn.productQuantity = fixQuantity;
