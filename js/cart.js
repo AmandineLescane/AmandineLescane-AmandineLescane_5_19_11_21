@@ -168,7 +168,7 @@ let orderBtn = document.getElementById("order");
 orderBtn.addEventListener("click", (event)=> {
     event.preventDefault();
 /*Création de l'objet newContact pour enregistré les infos du formualire*/
-    let newContact = {
+    let contact = {
         firstName: firstName.value,
         lastName: lastName.value,
         address: address.value,
@@ -183,12 +183,12 @@ orderBtn.addEventListener("click", (event)=> {
         (info[4] !== undefined))
     {
 /*Transmission des id des produits présents dans le panier en les enregistrant dans le tableau items*/
-        let items = [];
+        let products = [];
         productCart.forEach((orderBtn) =>{
-        items.push(orderBtn.productId);
+        products.push(orderBtn.productId);
         });
 /*Création variable contenant les infos du formulaire et les id des produits du panier*/ 
-        let sendOrder = {newContact , items};
+        let sendOrder = {contact , products};
         console.log(sendOrder);
 /*Création d'une requête pour envoyer les données au serveur*/
         const promise1 = fetch(`http://localhost:3000/api/products/order` ,{
@@ -206,12 +206,14 @@ orderBtn.addEventListener("click", (event)=> {
             console.log(response);
             const content = await response.json();
             console.log(content);
+            localStorage.setItem("order", JSON.stringify(content.orderId));
+            console.log(content.orderId);
         }catch(e){
             console.log(e);
         }
+        window.location.href = "confirmation.html";
         });
     }else{
         alert("Formulaire incomplet")
     }
 });
-
