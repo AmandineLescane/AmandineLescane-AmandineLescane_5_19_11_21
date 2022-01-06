@@ -87,8 +87,9 @@ function productCart(data){
         productQuantity : quantities.value
     };
 
+let verif = (quantities.value > 0 && quantities.value < 101);
 /*Création de la condition pour gérer l'ajout d'un produit ayant la même couleur et le même id au panier pour augmenter seulement la quantité*/
-    if(colorsOption.value != "" && quantities.value > 0){
+    if(colorsOption.value != "" && verif){
         
         const alreadyIn = localCart.find(
             obj => obj.productId === newProduct.productId && obj.productColors === newProduct.productColors);
@@ -101,7 +102,6 @@ function productCart(data){
             localCart.push(newProduct);
             localStorage.setItem("canap", JSON.stringify(localCart));
             alert("Produit ajouté au panier")
-            console.log(localCart);
     }
     }else{
             alert("Veuillez choisir une couleur/ une quantité");

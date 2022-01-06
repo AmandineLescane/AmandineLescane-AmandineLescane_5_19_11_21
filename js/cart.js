@@ -154,14 +154,16 @@ city.addEventListener("input", (event) => {
 });
 email.addEventListener("input", (event) => {
     event.preventDefault();
-    if(regExpEmail.test(email.value) == false || email.value == ""){
+    if(regExpEmail.test(email.value) === false || email.value === ""){
         document.getElementById("emailErrorMsg").innerHTML = "Entrée invalide";
     }else{
         document.getElementById("emailErrorMsg").innerHTML = "";
         info.push(email.value);
     }
 });
+
 let info = []
+console.log(info);
 
 /*Ecoute du bouton "Commander" pour passer la commande*/
 let orderBtn = document.getElementById("order");
