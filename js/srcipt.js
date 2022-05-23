@@ -1,43 +1,47 @@
+productDisplay();
+
 /*importation du contenu de l'api*/
-fetch("http://localhost:3000/api/products")
-    .then(function(response) {
-        if (response.ok) {
-        return response.json();
-    }
-})
-    .then(function(data) {
-        productDisplay(data);
-    })
-    .catch(function(error){
-
-    });
-
-/*définition de la class products à partir des éléments de l'api*/
-class products {
-    constructor(id, name, imageUrl, description, altTxt){
-    this.id = id;
-    this.name = name; 
-    this.imageUrl = imageUrl;
-    this.description = description;
-    this.altTxt = altTxt;
-    this.price = price;
-    this.colors = colors;
-    }
+async function getProduct() {
+    var api = await fetch("http://localhost:3000/api/products")
+    return await api.json();
 }
 
 /*création d'une fonction afin d'afficher tous les produits de l'api dans la page d'accueil*/
-function productDisplay(data){
-    for(products of data){
-    
-    const items = document.getElementById("items")
+async function productDisplay() {
+    var res = await getProduct ()
+    .then(function (data){
+        const products = data;
+        for (let product in products) {
 
-    items.innerHTML += `
-    <a href="./product.html?id=${products._id}">
-    <article>
-            <img src="${products.imageUrl}" alt="${products.altTxt}">
-            <h3 class="productName">${products.name}</h3>
-            <p class="productDescription">${products.description}</p>
-    </article>
-    </a>`
-    }
+            /*insertion d'un lien vers le produit*/ 
+            let productLink = document.createElement("a");
+            document.querySelector(".items").appendChild(productLink);
+            productLink.href = `product.html?id=${data[product]._id}`;
+
+            /*insertion d'un article pour contenir le produit*/
+            let productArticle = document.createElement("article");
+            productLink.appendChild(productArticle);
+
+            /*insertion de l'image du produit et de sa description*/
+            let productImg = document.createElement("img");
+            productArticle.appendChild(productImg);
+            productImg.src = data[product].imageUrl;
+            productImg.alt = data[product].altTxt;
+
+            /*insertion du nom du produit*/
+            let productName = document.createElement("h3");
+            productArticle.appendChild(productName);
+            productName.classList.add("productName");
+            productName.innerHTML = data[product].name;
+
+            /*insertion de la descrption du produit*/
+            let productDescription = document.createElement("p");
+            productArticle.appendChild(productDescription);
+            productDescription.classList.add("productName");
+            productDescription.innerHTML = data[product].description;
+        }
+    })
+    .catch (function(error){
+        return error;
+    });
 }

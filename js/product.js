@@ -64,9 +64,13 @@ function productCart(data){
     let cartButton = document.getElementById("addToCart");
 
 /*Création du tableau localCart pour sauvegarder les produits du panier*/
-    let localCart = localStorage.getItem("canap");
-    localCart = JSON.parse(localCart);
-    localCart = [];
+    localCart = localStorage.getItem('cart');
+        if(localCart === null){
+            localCart = [];
+            localStorage.setItem("cart", JSON.stringify(localCart));
+        }
+        localCart = localStorage.getItem('cart');
+        localCart = JSON.parse(localCart);
     
 /*Ecoute du bouton "Ajouter au Panier"*/
     cartButton.addEventListener("click", () => {

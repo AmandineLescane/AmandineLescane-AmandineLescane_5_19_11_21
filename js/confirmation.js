@@ -1,8 +1,8 @@
 const orderNumber = document.getElementById("orderId");
 
-const order = JSON.parse(localStorage.getItem("order"));
-console.log(order);
+const param = new URL(document.location).searchParams;
+const orderId = param.get("orderId");
 
-orderNumber.innerHTML = `${order}`;
+orderNumber.textContent = orderId;
 
 localStorage.clear();

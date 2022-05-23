@@ -15,40 +15,89 @@ if(productCart == 0 || productCart === null){
     alert("Le panier est vide")
 /*Affichage du panier si un produit est présent dans le localStorage*/
 } else {
-    for(i = 0; i < productCart.length; i++){
+    for (let product in productCart){
 
-    let finalPrice = ((productCart[i]).productQuantity)*((productCart[i]).productPrice);
-
-    cartArray += `
-    <article class="cart__item" data-id=${productCart.productId}>
-                <div class="cart__item__img">
-                    <img src="${(productCart[i]).productImg}" alt="${productCart.productTxt}">
-                </div>
-                <div class="cart__item__content">
-                <div class="cart__item__content__description">
-                    <h2>${(productCart[i]).productName}</h2>
-                    <p>${(productCart[i]).productColors}</p>
-                    <p>${finalPrice}€</p>
-                </div>
-                <div class="cart__item__content__settings">
-                <div class="cart__item__content__settings__quantity">
-                    <p>Qté : </p>
-                    <input type="number" class="itemQuantity" name="itemQuantity" min="1" max="100" value="${(productCart[i]).productQuantity}">
-                </div>
-                <div class="cart__item__content__settings__delete">
-                    <button class="deleteItem">Supprimer</button>
-                </div>
-                </div>
-                </div>
-    </article>
-    `;
+        /*Insertion de l'élément "article"*/
+        let cartArticle = document.createElement("article");
+        document.querySelector("#cart__items").appendChild(cartArticle);
+        cartArticle.className = "cart__item";
+        cartArticle.setAttribute('data-id', productCart[product].productId);
+    
+        /*Insertion d'une div pour l'image*/
+        let cartDivImg = document.createElement("div");
+        cartArticle.appendChild(cartDivImg);
+        cartDivImg.className = "cart__item__img";
+    
+        /*Insertion de l'image*/
+        let cartImg = document.createElement("img");
+        cartDivImg.appendChild(cartImg);
+        cartImg.src = productCart[product].productImg;
+        cartImg.alt = productCart[product].productTxt;
+        
+        /*Insertion d'une div pour le contenu texte*/
+        let cartItemContent = document.createElement("div");
+        cartArticle.appendChild(cartItemContent);
+        cartItemContent.className = "cart__item__content";
+    
+        /*Insertion d'une div pour le titre et le prix*/
+        let titlePrice = document.createElement("div");
+        cartItemContent.appendChild(titlePrice);
+        titlePrice.className = "cart__item__content__titlePrice";
+        
+        /*Insertion d'un titre h2 pour le nom du produit*/
+        let productTitle = document.createElement("h2");
+        titlePrice.appendChild(productTitle);
+        productTitle.innerHTML = productCart[product].productName;
+    
+        /*Insertion d'un paragraphe pour la couleur*/
+        let productColor = document.createElement("p");
+        productTitle.appendChild(productColor);
+        productColor.innerHTML = productCart[product].productColors;
+        productColor.style.fontSize = "20px";
+    
+        /*Insertion d'un paragraphe pour le prix*/
+        let productCartPrice = document.createElement("p");
+        titlePrice.appendChild(productCartPrice);
+        productCartPrice.innerHTML = productCart[product].productPrice + " €";
+    
+        /*Insertion d'une div pour les éléments de modification*/
+        let contentSettings = document.createElement("div");
+        cartItemContent.appendChild(contentSettings);
+        contentSettings.className = "cart__item__content__settings";
+    
+        /*Insertion d'une div pour modifier la quantité*/
+        let settingsQuantity = document.createElement("div");
+        contentSettings.appendChild(settingsQuantity);
+        settingsQuantity.className = "cart__item__content__settings__quantity";
+        
+        /*Insertion d'une div pour afficher la quantité*/
+        let productQty = document.createElement("p");
+        settingsQuantity.appendChild(productQty);
+        productQty.innerHTML = "Qté : ";
+    
+        /*Insertion de la quantité*/
+        let productQuantities = document.createElement("input");
+        settingsQuantity.appendChild(productQuantities);
+        productQuantities.value = productCart[product].productQuantity;
+        productQuantities.className = "itemQuantity";
+        productQuantities.setAttribute("type", "number");
+        productQuantities.setAttribute("min", "1");
+        productQuantities.setAttribute("max", "100");
+        productQuantities.setAttribute("name", "itemQuantity");
+    
+        /*Insertion d'une div pour supprimer un produit*/
+        let deleteItem = document.createElement("div");
+        contentSettings.appendChild(deleteItem);
+        deleteItem.className = "cart__item__content__settings__delete";
+    
+        /*Insertion du bouton supprimer*/
+        let deleteItemP = document.createElement("p");
+        deleteItem.appendChild(deleteItemP);
+        deleteItemP.className = "deleteItem";
+        deleteItemP.innerHTML = "Supprimer";
     }
 }
-    if(i == productCart.length){
-    recapProduct.innerHTML =cartArray;
-    } else {
-    alert("Le panier est vide");
-}
+
 
 /*Création de la fonctionnalité supprimer pour supprimer un produit directement dans le panier*/
 let deleteProduct = Array.from(document.querySelectorAll(".deleteItem"));
@@ -118,38 +167,34 @@ const email = document.getElementById("email");
 Enregistrement des entrées dans le tableau info*/
 firstName.addEventListener("input", (event) => {
     event.preventDefault();
-    if(regExpName.test(firstName.value) == false || firstName.value == ""){
+    if(regExpName.test(firstName.value) === false || firstName.value === ""){
         document.getElementById("firstNameErrorMsg").innerHTML = "Entrée invalide";
     }else{
         document.getElementById("firstNameErrorMsg").innerHTML ="";
-        info.push(firstName.value);
     }
 });
 lastName.addEventListener("input", (event) => {
     event.preventDefault();
-    if(regExpName.test(lastName.value) == false || lastName.value == ""){
+    if(regExpName.test(lastName.value) === false || lastName.value === ""){
         document.getElementById("lastNameErrorMsg").innerHTML = "Entrée invalide";
     }else{
         document.getElementById("lastNameErrorMsg").innerHTML ="";
-        info.push(lastName.value);
     }
 });
 address.addEventListener("input", (event) => {
     event.preventDefault();
-    if(regExpadress.test(address.value) == false || address.value == ""){
+    if(regExpadress.test(address.value) === false || address.value === ""){
         document.getElementById("addressErrorMsg").innerHTML = "Entrée invalide";
     }else{
         document.getElementById("addressErrorMsg").innerHTML ="";
-        info.push(address.value);
     }
 });
 city.addEventListener("input", (event) => {
     event.preventDefault();
-    if(regExpName.test(city.value) == false || city.value == ""){
+    if(regExpName.test(city.value) === false || city.value === ""){
         document.getElementById("cityErrorMsg").innerHTML = "Entrée invalide";
     }else{
         document.getElementById("cityErrorMsg").innerHTML = "";
-        info.push(city.value);
     }
 });
 email.addEventListener("input", (event) => {
@@ -158,12 +203,9 @@ email.addEventListener("input", (event) => {
         document.getElementById("emailErrorMsg").innerHTML = "Entrée invalide";
     }else{
         document.getElementById("emailErrorMsg").innerHTML = "";
-        info.push(email.value);
     }
 });
 
-let info = []
-console.log(info);
 
 /*Ecoute du bouton "Commander" pour passer la commande*/
 let orderBtn = document.getElementById("order");
@@ -178,12 +220,22 @@ orderBtn.addEventListener("click", (event)=> {
         email: email.value,
     };
 /*Création condition pour véririfer que toutes les entrées du formulaire sont remplies*/
-    if  ((info[0] !== undefined) &
-        (info[1] !== undefined) &
-        (info[2] !== undefined) &
-        (info[3] !== undefined) &
-        (info[4] !== undefined))
-    {
+    if  (
+        (regExpName.test(firstName.value) === false) ||
+        (regExpName.test(lastName.value) === false) ||
+        (regExpadress.test(address.value) === false) ||
+        (regExpName.test(city.value) === false) ||
+        (regExpEmail.test(email.value) === false)
+        )
+    { alert("Formulaire incorrect");
+    } else if (
+    (firstName.value === "") ||
+    (lastName.value === "") ||
+    (address.value === "") ||
+    (city.value === "") ||
+    (email.value === "")
+    ){ alert("Formulaire incomplet")
+    }else{
 /*Transmission des id des produits présents dans le panier en les enregistrant dans le tableau items*/
         let products = [];
         productCart.forEach((orderBtn) =>{
@@ -193,29 +245,20 @@ orderBtn.addEventListener("click", (event)=> {
         let sendOrder = {contact , products};
         console.log(sendOrder);
 /*Création d'une requête pour envoyer les données au serveur*/
-        const promise1 = fetch(`http://localhost:3000/api/products/order` ,{
+        fetch(`http://localhost:3000/api/products/order` ,{
             method: 'POST',
             body: JSON.stringify(sendOrder),
             headers: {
                 Accept : 'application/json',
                 'Content-Type' : 'application/json',
             },
-        });
-        console.log(promise1);
+        })
 /*Récupération de la réponse du serveur*/
-        promise1.then(async(response)=>{
-        try{
-            console.log(response);
-            const content = await response.json();
-            console.log(content);
-            localStorage.setItem("order", JSON.stringify(content.orderId));
-            console.log(content.orderId);
-        }catch(e){
-            console.log(e);
-        }
-        window.location.href = "confirmation.html";
+        .then((res) => {
+            return res.json();
+        })
+        .then((content) => {
+            window.location.href = "../html/confirmation.html?orderId=" + content.orderId;
         });
-    }else{
-        alert("Formulaire incomplet")
     }
 });
